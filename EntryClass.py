@@ -1,5 +1,3 @@
-import random
-import os
 import base64
 from cryptography.fernet import Fernet
 from cryptography.hazmat.backends import default_backend
@@ -15,25 +13,11 @@ class Entry:
         self.password = password
         self.pin = pin
         self.big_pass = big_pass
+        self.decrypt_list = []
 
     def fix(self):
-        list_vars = []
-        for letter, var in [['n', self.name], ['u', self.username], ['e', self.email], ['p', self.password], ['i', self.pin]]:
-            if var is not None:
-                list_vars.append(''.join([letter, var]))
-        # random.shuffle(list_vars)
-        self.vars = '\n'.join(list_vars)
-        print('fix done')
-
-    @staticmethod
-    def start():
-        """
-        Gets the hash for the user's password
-
-        :return: str
-        """
-        password = bytes(input("What do you want you password to be? "))
-        return password
+        self.vars = '\n'.join([self.name, self.username, self.email, self.pin])
+        return self
 
     @staticmethod
     def get_key(password):
@@ -52,21 +36,31 @@ class Entry:
     def add(self):
         secret = self.vars.encode()
 
-        print(self.get_key(self.big_pass))
         f = Fernet(self.get_key(self.big_pass))
 
         with open('dat//dat.txt', 'ab') as file:
             file.write(f.encrypt(secret))
             file.write(b'\n')
+        return self
 
-    @staticmethod
-    def get_list_of_entries(password):
+    def get_list_of_entries(self):
         file = open('dat//dat.txt', 'rb')
         encrypted = file.readlines()
-        for write in encrypted:
-            f = Fernet(Entry.get_key(password))
+        for num, write in enumerate(encrypted):
+            f = Fernet(Entry.get_key(self.big_pass))
             decrypt = f.decrypt(write).decode('utf-8')
             decrypt.split('\n')
-            print(decrypt[0][1:])
+            self.decrypt_list.append(decrypt)
+            print(f"{num}) {decrypt[0]}")
+        choice = input('Which account would you like to view? ')
+        while not choice.isdigit():
+            choice = input('Which account would you like to view? ')
+        choice = int(choice)
+        account = self.decrypt_list[choice]
+        print(f'\n\nName of account:      {account[0]}')
+        print(f'Username of account:  {account[1]}')
+        print(f'Email for account:    {account[2]}')
+        print(f'Password of account:  {account[3]}')
+        print(f'PIN for account:      {account[4]}\n\n')
 
 
