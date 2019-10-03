@@ -8,7 +8,7 @@ h = hashlib.sha256()
 
 
 def check_pass(hashp):
-    if os.path.exists('dat//dat.txt') and os.path.exists('dat//passhash.txt'):
+    if os.path.exists('dat//txt.passwords') and os.path.exists('dat//passhash.txt'):
         with open('dat//passhash.txt', 'r') as f:
             pass_hash = f.read()
         return hashp == pass_hash
@@ -36,6 +36,6 @@ def get_info(big_pass):
 def tamper_proof():
     with open('dat//passhash.txt', 'w') as f:
         f.write('')
-    with open('dat//dat.txt', 'w') as f:
+    with open('dat//txt.passwords', 'w') as f:
         f.write('')
     quit('Data wiped! The password was deleted')

@@ -16,7 +16,7 @@ class Entry:
         self.decrypt_list = []
 
     def fix(self):
-        self.vars = '\n'.join([self.name, self.username, self.email, self.pin])
+        self.vars = '::~~::~~::'.join([self.name, self.username, self.email, self.password, self.pin])
         return self
 
     @staticmethod
@@ -38,18 +38,18 @@ class Entry:
 
         f = Fernet(self.get_key(self.big_pass))
 
-        with open('dat//dat.txt', 'ab') as file:
+        with open('dat//txt.passwords', 'ab') as file:
             file.write(f.encrypt(secret))
             file.write(b'\n')
         return self
 
     def get_list_of_entries(self):
-        file = open('dat//dat.txt', 'rb')
+        file = open('dat//txt.passwords', 'rb')
         encrypted = file.readlines()
         for num, write in enumerate(encrypted):
             f = Fernet(Entry.get_key(self.big_pass))
             decrypt = f.decrypt(write).decode('utf-8')
-            decrypt.split('\n')
+            decrypt = decrypt.split('::~~::~~::')
             self.decrypt_list.append(decrypt)
             print(f"{num}) {decrypt[0]}")
         choice = input('Which account would you like to view? ')

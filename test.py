@@ -4,7 +4,7 @@ import EntryClass
 
 
 
-file = open('dat//dat.txt', 'rb')
+file = open('dat//txt.passwords', 'rb')
 encrypted = file.readlines()[0]
 print([encrypted])
 print(EntryClass.Entry.get_key('cool'))
