@@ -18,15 +18,23 @@ def encrypt_or_decrypt(password):
     """
     while True:  # event loop
         while True:
-            choice = input("Do you want to [v]iew passwords or [a]dd one?").upper()  # takes the input
-            if choice in ['V', 'A']:
+            choice = input("Do you want to [v]iew passwords, [e]dit passwords, or [a]dd one?").upper()  # takes the input
+            if choice in ['V', 'A', 'E']:
                 break
         if choice == 'A':  # add passwords
-            new_entry = setup.get_info(password)
+            new_entry = setup.get_info(password)  # this creates an Entry
             new_entry.fix().add()
         elif choice == 'V':  # view passwords
-            get_list = EntryClass.Entry(big_pass=password)
-            get_list.get_list_of_entries()
+            existing_entry = EntryClass.Entry(big_pass=password)
+            existing_entry.get_list_of_entries()
+        elif choice == 'E':
+            edit_entry = EntryClass.Entry(big_pass=password)
+            line = edit_entry.get_list_of_entries(edit=True)
+            editee_entry = setup.get_info(password, edit=True)
+            editee_entry.big_pass = password
+            editee_entry.edit_line(line)
+
+
 
 # Encryption of files
 

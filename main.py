@@ -1,18 +1,23 @@
 #!/usr/bin/env python3
 import hashlib
-import os
-from passlib.context import CryptContext
+from os import system, name, path
 
 import setup
 import talk
 
+
 hasher = hashlib.sha256()
 
-# pwd_context = CryptContext(
-#         schemes=["pbkdf2_sha256"],
-#         default="pbkdf2_sha256",
-#         pbkdf2_sha256__default_rounds=30000
-# )
+
+# clear output function
+def clear():
+    # for windows
+    if name == 'nt':
+        _ = system('cls')
+
+        # for mac and linux(here, os.name is 'posix')
+    else:
+        _ = system('clear')
 
 
 def login():
@@ -22,6 +27,7 @@ def login():
     :return: None
     """
     password = input('Password: ')
+    clear()
     hasher.update(password.encode())
     if setup.check_pass(hasher.hexdigest()):
         talk.encrypt_or_decrypt(password)
@@ -36,7 +42,7 @@ def login_or_generate():
 
     :return: None
     """
-    if os.path.exists('dat//passhash.txt'):
+    if path.exists('dat//passhash.txt'):
         file_read_only = open('dat//passhash.txt', 'r')
         if file_read_only.read() == '':
             file_read_only.close()

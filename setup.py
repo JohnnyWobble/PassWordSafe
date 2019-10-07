@@ -34,14 +34,18 @@ def add_space(string):
     return string
 
 
-def get_info(big_pass):
+def get_info(big_pass, edit=False):
     """
     Has a dialog with the user to get the data that will be stored
 
     :param big_pass: str
+    :param edit: bool
     :return: Entry
     """
-    print("Just hit enter if you don't want to fill out the field")
+    if edit:
+        print("Leave the field blank if you don't want to edit it")
+    else:
+        print("Just hit enter if you don't want to fill out the field")
     name = add_space(input('Name of account: '))
     username = add_space(input('Username of account: '))
     email = add_space(input('Email for account: '))

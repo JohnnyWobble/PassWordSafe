@@ -1,4 +1,5 @@
 import base64
+import fileinput
 from cryptography.fernet import Fernet
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
@@ -8,7 +9,8 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 class Entry:
     def __init__(self, name=None, username=None, email=None, password=None, pin=None, big_pass=None):
         """
-        init method for Entry (duh)
+        init method for Entry (duh), it gets called without params when you just need to access some of the unrelated
+        methods (e.i. static methods)
 
         :param name: str
         :param username: str
@@ -69,15 +71,18 @@ class Entry:
             file.write(b'\n')
         return self
 
-    def print_entries(self):
+    def print_entries(self, edit=False):
         """
         Asks the user which entry they want to print, and prints it
 
         :return: self
         """
-        choice = input('Which account would you like to view? ')
+        word = 'view'
+        if edit:
+            word = 'edit'
+        choice = input(f'Which account would you like to {word}? ')
         while not choice.isdigit():  # only allow valid inputs
-            choice = input('Which account would you like to view? ')
+            choice = input(f'Which account would you like to {word}? ')
         choice = int(choice)
         account = self.decrypt_list[choice]
         print('\n\n')
@@ -87,9 +92,11 @@ class Entry:
         print(f'Password of account:  {account[3]}')
         print(f'PIN for account:      {account[4]}')
         print('\n\n')
-        return self
+        # if edit:
+        #     self.edit_line(choice)
+        return choice
 
-    def get_list_of_entries(self):
+    def get_list_of_entries(self, edit=False):
         """
         Accesses the data stored on txt.passwords, and sorts it to be printed
 
@@ -103,8 +110,17 @@ class Entry:
             decrypt = decrypt.split('::~~::~~::')  # splits data by type
             self.decrypt_list.append(decrypt)
             print(f"{num}) {decrypt[0]}")
-        self.print_entries()  # prints data
+        self.print_entries(edit=edit)  # prints data
         return self
+
+    def edit_line(self, line):
+        for num, line in enumerate(fileinput.input('dat/txt.passwords', inplace=True)):   # everything printed in this loop gets written to the file
+            if num == line:
+                f = Fernet(self.get_key(self.big_pass))
+                self.fix()
+                print(f.encrypt(self.vars).decode())
+
+
 
 
 
