@@ -1,5 +1,5 @@
 import hashlib
-import os
+from os import system, name, path
 
 
 from EntryClass import Entry
@@ -14,7 +14,7 @@ def check_pass(hashed_password):
     :param hashed_password: bytes
     :return: bool
     """
-    if os.path.exists('dat//txt.passwords') and os.path.exists('dat//passhash.txt'):
+    if path.exists('dat//txt.passwords') and path.exists('dat//passhash.txt'):
         with open('dat//passhash.txt', 'r') as f:
             pass_hash = f.read()
         return hashed_password == pass_hash
@@ -65,3 +65,18 @@ def tamper_proof():
     with open('dat//txt.passwords', 'w') as f:
         f.write('')
     quit('Data wiped! The password was deleted')
+
+
+def clear():  # clear output function
+    """
+    Clears the terminal windows, note: does not work on the PyCharm run windows it just prints a weird character
+
+    :return: None
+    """
+    # for windows
+    if name == 'nt':
+        system('cls')
+
+    # for mac and linux(here, os.name is 'posix')
+    else:
+        system('clear')

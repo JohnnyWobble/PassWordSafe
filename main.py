@@ -1,23 +1,12 @@
 #!/usr/bin/env python3
 import hashlib
-from os import system, name, path
+from os import path
 
 import setup
 import talk
 
 
 hasher = hashlib.sha256()
-
-
-# clear output function
-def clear():
-    # for windows
-    if name == 'nt':
-        _ = system('cls')
-
-        # for mac and linux(here, os.name is 'posix')
-    else:
-        _ = system('clear')
 
 
 def login():
@@ -27,7 +16,7 @@ def login():
     :return: None
     """
     password = input('Password: ')
-    clear()
+    setup.clear()
     hasher.update(password.encode())
     if setup.check_pass(hasher.hexdigest()):
         talk.encrypt_or_decrypt(password)

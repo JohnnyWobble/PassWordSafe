@@ -1,4 +1,3 @@
-import os
 import EntryClass
 import hashlib
 
@@ -18,8 +17,8 @@ def encrypt_or_decrypt(password):
     """
     while True:  # event loop
         while True:
-            choice = input("Do you want to [v]iew passwords, [e]dit passwords, or [a]dd one?").upper()  # takes the input
-            if choice in ['V', 'A', 'E']:
+            choice = input("Do you want to [v]iew entries, [e]dit entries, [a]dd one, or [exit]? ").upper()  # takes the input
+            if choice in ['V', 'A', 'E', 'EXIT']:
                 break
         if choice == 'A':  # add passwords
             new_entry = setup.get_info(password)  # this creates an Entry
@@ -33,13 +32,12 @@ def encrypt_or_decrypt(password):
             editee_entry = setup.get_info(password, edit=True)
             editee_entry.big_pass = password
             editee_entry.edit_line(line)
+        elif choice == 'EXIT':
+            setup.clear()
+            quit('Bye')
 
 
-
-# Encryption of files
-
-
-def generate(password_file):
+def generate(password_file):  # Encryption of files
     """
     Wipes the data and then asks user for the password they want, hashes it and writes it to passhash.txt
 
