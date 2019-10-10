@@ -16,23 +16,27 @@ def encrypt_or_decrypt(password):
     :return: None
     """
     while True:  # event loop
-        while True:
+        while True:  # input loop
             choice = input("Do you want to [v]iew entries, [e]dit entries, [a]dd one, or [exit]? ").upper()  # takes the input
             if choice in ['V', 'A', 'E', 'EXIT']:
                 break
-        if choice == 'A':  # add passwords
+
+        if choice == 'A':  # add accounts
             new_entry = setup.get_info(password)  # this creates an Entry
             new_entry.fix().add()
-        elif choice == 'V':  # view passwords
+
+        elif choice == 'V':  # view accounts
             existing_entry = EntryClass.Entry(big_pass=password)
             existing_entry.get_list_of_entries()
-        elif choice == 'E':
+
+        elif choice == 'E':  # editing accounts
             edit_entry = EntryClass.Entry(big_pass=password)
             line = edit_entry.get_list_of_entries(edit=True)
             editee_entry = setup.get_info(password, edit=True)
             editee_entry.big_pass = password
             editee_entry.edit_line(line)
-        elif choice == 'EXIT':
+
+        elif choice == 'EXIT':  # ends program
             setup.clear()
             quit('Bye')
 

@@ -1,7 +1,6 @@
 import hashlib
 from os import system, name, path
 
-
 from EntryClass import Entry
 
 
@@ -10,14 +9,16 @@ h = hashlib.sha256()
 
 def salt(password):
     """
-    Adds a salt to the password
+    Adds a salt to the beginning and end of the password to deter dehashing it with a brute force method or with a hash
+    library
 
     :param password: str
     :return: str
     """
+    pass
 
 
-def check_pass(hashed_password):
+def check_pass(hashed_password: str) -> bool:
     """
     Checks if the password is valid by comparing its hash to the stored one
 
@@ -32,7 +33,7 @@ def check_pass(hashed_password):
         tamper_proof()
 
 
-def add_space(string):
+def add_space(string: str) -> str:
     """
     Adds a space to the string to make comprehension easier
 
@@ -44,7 +45,7 @@ def add_space(string):
     return string
 
 
-def get_info(big_pass, edit=False):
+def get_info(big_pass: str, edit: bool = False) -> Entry:
     """
     Has a dialog with the user to get the data that will be stored
 
@@ -66,7 +67,7 @@ def get_info(big_pass, edit=False):
 
 def tamper_proof():
     """
-    If the password file is wiped then it deletes all of the data
+    Called if the password file is wiped then it deletes all of the stored data
 
     :return: None
     """
