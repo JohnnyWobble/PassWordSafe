@@ -4,7 +4,17 @@ from os import system, name, path
 
 from EntryClass import Entry
 
+
 h = hashlib.sha256()
+
+
+def salt(password):
+    """
+    Adds a salt to the password
+
+    :param password: str
+    :return: str
+    """
 
 
 def check_pass(hashed_password):

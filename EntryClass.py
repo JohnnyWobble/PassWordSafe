@@ -1,5 +1,4 @@
 import base64
-import fileinput
 from cryptography.fernet import Fernet
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
@@ -92,8 +91,6 @@ class Entry:
         print(f'Password of account:  {account[3]}')
         print(f'PIN for account:      {account[4]}')
         print('\n\n')
-        # if edit:
-        #     self.edit_line(choice)
         return choice
 
     def get_list_of_entries(self, edit=False):
@@ -102,25 +99,38 @@ class Entry:
 
         :return: self
         """
-        file = open('dat//txt.passwords', 'rb')
-        encrypted = file.readlines()
+        with open('dat//txt.passwords', 'rb') as file:
+            encrypted = file.readlines()
+
         for num, write in enumerate(encrypted):  # iterates through data to sort it
             f = Fernet(Entry.get_key(self.big_pass))
             decrypt = f.decrypt(write).decode('utf-8')
             decrypt = decrypt.split('::~~::~~::')  # splits data by type
             self.decrypt_list.append(decrypt)
             print(f"{num}) {decrypt[0]}")
-        self.print_entries(edit=edit)  # prints data
-        return self
+        pick_line = self.print_entries(edit=edit)  # prints data
+        return pick_line
 
     def edit_line(self, line):
-        for num, line in enumerate(fileinput.input('dat/txt.passwords', inplace=True)):   # everything printed in this loop gets written to the file
-            if num == line:
-                f = Fernet(self.get_key(self.big_pass))
-                self.fix()
-                print(f.encrypt(self.vars).decode())
+        """
+        Encypts the data that th users wants to add, then writes it in the appropriate location on to txt.passwords
 
+        :param line: int
+        :return: Entry
+        """
+        self.fix()  # organizes data from self.vars
 
+        f = Fernet(self.get_key(self.big_pass))  # generates encryption key
 
+        # Gets the current data on txt.passwords
+        with open('dat/txt.passwords', 'rb') as file:
+            file_lines = file.readlines()
 
+        # encrypts and adds the line to the list of lines going to be written
+        line_to_write = f.encrypt(self.vars.encode())
+        file_lines[line] = line_to_write + b'\n'
+
+        with open('dat/txt.passwords', 'wb') as file:  # Writes lines
+            file.writelines(file_lines)
+        return self
 
