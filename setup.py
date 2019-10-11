@@ -4,18 +4,17 @@ from os import system, name, path
 from EntryClass import Entry
 
 
-h = hashlib.sha256()
-
-
-def salt(password):
+def salt_hash(password):
     """
-    Adds a salt to the beginning and end of the password to deter dehashing it with a brute force method or with a hash
-    library
+    Adds a salt to the beginning and end of the password before hashing to deter dehashing it with a brute force method
+    or with a hash library
 
     :param password: str
     :return: str
     """
-    pass
+    hasher = hashlib.sha256()
+    hasher.update(f"$&%$%$%^$%{password}#$&%&^$%&".encode())
+    return hasher.hexdigest()
 
 
 def check_pass(hashed_password: str) -> bool:

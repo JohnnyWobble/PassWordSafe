@@ -1,10 +1,6 @@
 import EntryClass
-import hashlib
 
 import setup
-
-
-hasher = hashlib.sha256()
 
 
 def encrypt_or_decrypt(password):
@@ -44,6 +40,7 @@ def encrypt_or_decrypt(password):
             print('\n\n')
             continue  # allows user to cancel their action by hitting ctrl+c
 
+
 def generate(password_file):  # Encryption of files
     """
     Wipes the data and then asks user for the password they want, hashes it and writes it to passhash.txt
@@ -56,10 +53,8 @@ def generate(password_file):  # Encryption of files
 
     # generates hash
     password = input("What do you want your password to be? ")
-    hasher.update(password.encode())
-    password_file.write(hasher.hexdigest())
+    password_file.write(setup.salt_hash(password))
 
     print('Ok, password set! Now try and login.')
     password_file.close()
     return None
-
