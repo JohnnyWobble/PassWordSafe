@@ -54,18 +54,18 @@ def get_info(big_pass: str, edit: bool = False) -> Entry:
     :return: Entry
     """
     if edit:
-        print("Leave the field blank if you don't want to edit it")
+        print("Leave the field blank if you don't want to edit it (ctr+c to cancel)")
     else:
-        print("Just hit enter if you don't want to fill out the field")
-    name = add_space(input('Name of account: '))
-    username = add_space(input('Username of account: '))
-    email = add_space(input('Email for account: '))
+        print("Just hit enter if you don't want to fill out the field (ctr+c to cancel)")
+    acc_name = add_space(input('Name of account:      '))
+    username = add_space(input('Username of account:  '))
+    email = add_space(input('Email for account:    '))
     password = add_space(input('Password for account: '))
-    pin = add_space(input('PIN of account: '))
-    return Entry(name=name, username=username, email=email, password=password, pin=pin, big_pass=big_pass)
+    pin = add_space(input('PIN of account:       '))
+    return Entry(name=acc_name, username=username, email=email, password=password, pin=pin, big_pass=big_pass)
 
 
-def tamper_proof():
+def tamper_proof() -> None:
     """
     Called if the password file is wiped then it deletes all of the stored data
 
@@ -78,7 +78,7 @@ def tamper_proof():
     quit('Data wiped! The password was deleted')
 
 
-def clear():  # clear output function
+def clear() -> None:  # clear output function
     """
     Clears the terminal windows, note: does not work on the PyCharm run windows it just prints a weird character
 

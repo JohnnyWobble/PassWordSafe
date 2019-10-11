@@ -9,7 +9,7 @@ import talk
 hasher = hashlib.sha256()
 
 
-def login():
+def login() -> None:
     """
     Login sequence for the user, if it is the right password they can continue, else it will quit the program
 
@@ -24,7 +24,7 @@ def login():
         quit('Bad Password!')
 
 
-def login_or_generate():
+def login_or_generate() -> None:
     """
     Reads passhash.txt and if it has a hash in it then it assumes that the user want to login, if it doesn't exist or it
     is empty, than it creates a new profile for the user

@@ -23,8 +23,9 @@ class Entry:
         self.email = email
         self.password = password
         self.pin = pin
-        self.big_pass = big_pass  # User's passwords to the safe
+        self.big_pass = big_pass  # User's password to the safe
         self.decrypt_list = []
+        self.data_list = [self.name, self.username, self.email, self.password, self.pin]
 
     def fix(self):
         """
@@ -32,7 +33,7 @@ class Entry:
 
         :return: self
         """
-        self.vars = '::~~::~~::'.join([self.name, self.username, self.email, self.password, self.pin])
+        self.vars = '::~~::~~::'.join(self.data_list)
         return self
 
     @staticmethod
@@ -80,10 +81,10 @@ class Entry:
         word = 'view'
         if edit:  # makes sure to use the correct word where necessary
             word = 'edit'
-        choice = input(f'Which account would you like to {word}? ')
+        choice = input(f'Which account would you like to {word} (ctrl+c to cancel)?\n')
 
         while not choice.isdigit():  # only allow valid inputs (int)
-            choice = input(f'Which account would you like to {word}? ')
+            choice = input(f'Which account would you like to {word} (ctrl+c to cancel)?\n')
         choice = int(choice)
         account = self.decrypt_list[choice]
         print('\n')
@@ -118,15 +119,20 @@ class Entry:
 
         return pick_line  # pick_line is the index of the account they want
 
-    def edit_line(self, line: int):
+    def edit_line(self, line: int, info_entry):
         """
         Encrypts the data that the user wants to edit, then over-writes the existing data in the appropriate location on
         to txt.passwords
 
         :param line: int
+        :param info_entry: Entry
         :return: Entry
         """
         self.fix()  # organizes data from self.vars
+        for num, data in enumerate(info_entry.decrypt_list[line]):
+            if self.data_list[num].isspace() or self.data_list[num] == "":
+                self.data_list[num] = data
+        self.fix()
 
         f = Fernet(self.get_key(self.big_pass))  # generates encryption key
 
