@@ -1,5 +1,5 @@
-import EntryClass
-import setup
+from PassWordSafeSRC import EntryClass
+from PassWordSafeSRC import setup
 
 
 def encrypt_or_decrypt(password):

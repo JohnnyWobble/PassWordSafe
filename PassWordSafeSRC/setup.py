@@ -1,7 +1,7 @@
 import hashlib
 from os import system, name, path
 
-from EntryClass import Entry
+from PassWordSafeSRC.EntryClass import Entry
 
 
 def salt_hash(password):
