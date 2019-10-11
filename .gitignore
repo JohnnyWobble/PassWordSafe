@@ -1,3 +1,5 @@
+*.xml
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -8,11 +10,11 @@ __pycache__/
 
 
 # Password Data
-dat/
+PassWordSafeSRC/dat/
 
 # Distribution / packaging
 .Python
-.idea/*
+.idea/
 build/
 develop-eggs/
 dist/
