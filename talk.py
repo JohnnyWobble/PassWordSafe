@@ -1,5 +1,4 @@
 import EntryClass
-
 import setup
 
 
