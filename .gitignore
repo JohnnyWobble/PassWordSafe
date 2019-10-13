@@ -10,7 +10,7 @@ __pycache__/
 
 
 # Password Data
-PassWordSafeSRC/dat/
+src/tmp/
 
 # Distribution / packaging
 .Python

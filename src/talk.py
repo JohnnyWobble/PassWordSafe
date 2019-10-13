@@ -1,5 +1,5 @@
-from PassWordSafeSRC import EntryClass
-from PassWordSafeSRC import setup
+from src import EntryClass
+from src import setup
 
 
 def encrypt_or_decrypt(password):
@@ -13,10 +13,10 @@ def encrypt_or_decrypt(password):
     while True:  # event loop
         try:
             while True:  # input loop
-                choice = input("Do you want to [v]iew entries, [e]dit entries, [a]dd one, or [exit]? ").upper()  # takes the input
+                choice = input("\nDo you want to [v]iew entries, [e]dit entries, [a]dd one, or [exit]? ").upper()  # takes the input
                 if choice in ['V', 'A', 'E', 'EXIT']:  # if it is a valid choice
                     break
-
+            setup.clear()
             if choice == 'A':  # add accounts
                 new_entry = setup.get_info(password)  # this creates an Entry
                 new_entry.fix().add()
@@ -47,7 +47,7 @@ def generate(password_file):  # Encryption of files
     :param password_file:
     :return:
     """
-    with open('dat//txt.passwords', 'w') as f:  # wipe data file
+    with open('src//tmp//txt.passwords', 'w') as f:  # wipe data file
         f.write('')
 
     # generates hash

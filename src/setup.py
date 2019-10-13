@@ -1,7 +1,8 @@
 import hashlib
 from os import system, name, path
+from time import sleep
 
-from PassWordSafeSRC.EntryClass import Entry
+from src.EntryClass import Entry
 
 
 def salt_hash(password):
@@ -24,8 +25,8 @@ def check_pass(hashed_password: str) -> bool:
     :param hashed_password: bytes
     :return: bool
     """
-    if path.exists('dat//txt.passwords') and path.exists('dat//passhash.txt'):
-        with open('dat//passhash.txt', 'r') as f:
+    if path.exists('tmp//txt.passwords') and path.exists('tmp//passhash.txt'):
+        with open('tmp//passhash.txt', 'r') as f:
             pass_hash = f.read()
         return hashed_password == pass_hash
     else:
@@ -70,9 +71,9 @@ def tamper_proof() -> None:
 
     :return: None
     """
-    with open('dat//passhash.txt', 'w') as f:
+    with open('src//tmp//passhash.txt', 'w') as f:
         f.write('')
-    with open('dat//txt.passwords', 'w') as f:
+    with open('src//tmp//txt.passwords', 'w') as f:
         f.write('')
     quit('Data wiped! The password was deleted')
 
@@ -83,6 +84,7 @@ def clear() -> None:  # clear output function
 
     :return: None
     """
+    print("\033[H\033[J")
     # for windows
     if name == 'nt':
         system('cls')

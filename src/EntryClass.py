@@ -66,7 +66,7 @@ class Entry:
 
         f = Fernet(self.get_key(self.big_pass))
 
-        with open('dat//txt.passwords', 'ab') as file:
+        with open('src//tmp//txt.passwords', 'ab') as file:
             file.write(f.encrypt(secret))
             file.write(b'\n')
         return self
@@ -81,10 +81,10 @@ class Entry:
         word = 'view'
         if edit:  # makes sure to use the correct word where necessary
             word = 'edit'
-        choice = input(f'Which account would you like to {word} (ctrl+c to cancel)?\n')
+        choice = input(f'Which account would you like to {word} (ctrl+c to cancel)? ')
 
         while not choice.isdigit():  # only allow valid inputs (int)
-            choice = input(f'Which account would you like to {word} (ctrl+c to cancel)?\n')
+            choice = input(f'Which account would you like to {word} (ctrl+c to cancel)? ')
         choice = int(choice)
         account = self.decrypt_list[choice]
         print('\n')
@@ -105,7 +105,7 @@ class Entry:
         """
         f = Fernet(Entry.get_key(self.big_pass))
 
-        with open('dat//txt.passwords', 'rb') as file:
+        with open('src//tmp//txt.passwords', 'rb') as file:
             encrypted = file.readlines()
 
         for num, write in enumerate(encrypted):  # iterates through data to sort it
@@ -137,13 +137,13 @@ class Entry:
         f = Fernet(self.get_key(self.big_pass))  # generates encryption key
 
         # Gets the current data on txt.passwords
-        with open('dat/txt.passwords', 'rb') as file:
+        with open('src//tmp/txt.passwords', 'rb') as file:
             file_lines = file.readlines()
 
         # encrypts and adds the line to the list of lines going to be written
         line_to_write = f.encrypt(self.vars.encode())
         file_lines[line] = line_to_write + b'\n'
 
-        with open('dat/txt.passwords', 'wb') as file:  # Writes lines
+        with open('src//tmp/txt.passwords', 'wb') as file:  # Writes lines
             file.writelines(file_lines)
         return self
