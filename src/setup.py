@@ -1,6 +1,5 @@
 import hashlib
 from os import system, name, path
-from time import sleep
 
 from src.EntryClass import Entry
 
@@ -54,7 +53,7 @@ def get_info(big_pass: str, edit: bool = False) -> Entry:
     :return: Entry
     """
     if edit:
-        print("Leave the field blank if you don't want to edit it (ctr+c to cancel)")
+        print("Leave the field blank if you don't want to edit it, use a period just to clear the field (ctr+c to cancel)")
     else:
         print("Just hit enter if you don't want to fill out the field (ctr+c to cancel)")
     acc_name = add_space(input('Name of account:      '))

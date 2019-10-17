@@ -13,13 +13,13 @@ def encrypt_or_decrypt(password):
     while True:  # event loop
         try:
             while True:  # input loop
-                choice = input("\nDo you want to [v]iew entries, [e]dit entries, [a]dd one, or [exit]? ").upper()  # takes the input
-                if choice in ['V', 'A', 'E', 'EXIT']:  # if it is a valid choice
+                choice = input("\nDo you want to [v]iew entries, [e]dit entries, [a]dd one, [d]elete one, or [exit]? ").upper()  # takes the input
+                if choice in ['V', 'A', 'E', 'D', 'EXIT']:  # if it is a valid choice
                     break
             setup.clear()
             if choice == 'A':  # add accounts
                 new_entry = setup.get_info(password)  # this creates an Entry
-                new_entry.fix().add()
+                new_entry.ready_for_write().add()
 
             elif choice == 'V':  # view accounts
                 existing_entry = EntryClass.Entry(big_pass=password)
@@ -31,6 +31,11 @@ def encrypt_or_decrypt(password):
                 editee_entry = setup.get_info(password, edit=True)  # Entry that collects information to be printed
                 editee_entry.big_pass = password
                 editee_entry.edit_line(line, edit_entry)
+
+            elif choice == 'D':  # delete accounts
+                edit_entry = EntryClass.Entry(big_pass=password)  # Entry that contains data about account (pre-edit)
+                line = edit_entry.get_list_of_entries(delete=True)
+                edit_entry.delete_entry(line)
 
             elif choice == 'EXIT':  # ends program
                 setup.clear()

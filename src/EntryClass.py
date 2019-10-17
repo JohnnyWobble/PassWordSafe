@@ -27,7 +27,7 @@ class Entry:
         self.decrypt_list = []
         self.data_list = [self.name, self.username, self.email, self.password, self.pin]
 
-    def fix(self):
+    def ready_for_write(self):
         """
         Joins data with an identifier (::~~::~~::) to separate later
 
@@ -58,7 +58,7 @@ class Entry:
 
     def add(self):
         """
-        Add more data to the txt.passwords, writes it in byte mode
+        Writes newline to the txt.passwords file so it can differentiate between entries
 
         :return: self
         """
@@ -71,7 +71,7 @@ class Entry:
             file.write(b'\n')
         return self
 
-    def print_entries(self, edit: bool = False) -> int:
+    def print_entries(self, edit: bool = False, delete: bool = False) -> int:
         """
         Asks the user which entry they want to print, and prints it, for editing it returns the index of the account
         they wanted so it can be edited later
@@ -81,6 +81,8 @@ class Entry:
         word = 'view'
         if edit:  # makes sure to use the correct word where necessary
             word = 'edit'
+        elif delete:
+            word = 'delete'
         choice = input(f'Which account would you like to {word} (ctrl+c to cancel)? ')
 
         while not choice.isdigit():  # only allow valid inputs (int)
@@ -96,7 +98,7 @@ class Entry:
         print('\n')
         return choice
 
-    def get_list_of_entries(self, edit: bool = False) -> int:
+    def get_list_of_entries(self, edit: bool = False, delete: bool = False) -> int:
         """
         Accesses the data stored on txt.passwords, and sorts it to be printed, then asks the user which one they want to
         see
@@ -115,7 +117,7 @@ class Entry:
 
             self.decrypt_list.append(decrypt)
             print(f"{num}) {decrypt[0]}")  # print the different accounts
-        pick_line = self.print_entries(edit=edit)  # prints data for the account, and asks user which one they want
+        pick_line = self.print_entries(edit=edit, delete=delete)  # prints data for the account, and asks user which one they want
 
         return pick_line  # pick_line is the index of the account they want
 
@@ -128,11 +130,13 @@ class Entry:
         :param info_entry: Entry
         :return: Entry
         """
-        self.fix()  # organizes data from self.vars
+        self.ready_for_write()  # organizes data from self.vars
         for num, data in enumerate(info_entry.decrypt_list[line]):
             if self.data_list[num].isspace() or self.data_list[num] == "":
                 self.data_list[num] = data
-        self.fix()
+            elif self.data_list[num] == ".":  # clear the entry if it is just a period
+                self.data_list[num] = " "
+        self.ready_for_write()
 
         f = Fernet(self.get_key(self.big_pass))  # generates encryption key
 
@@ -147,3 +151,26 @@ class Entry:
         with open('src//tmp/txt.passwords', 'wb') as file:  # Writes lines
             file.writelines(file_lines)
         return self
+
+    def delete_entry(self, entry_line: int):
+        """
+        It will write back the data but without the entry that was specified to be deleted
+
+        :param entry_line: int
+        :return: None
+        """
+        while True:  # takes only valid input
+            y_n = input("Are you absolutely sure [Y/N]? ").upper()
+            if y_n == "N":
+                raise KeyboardInterrupt  # goes back to main menu
+            elif y_n == "Y":
+                break
+
+        with open("src//tmp//txt.passwords", "w") as f:  # clears data so the new stuff can be appended with .add()
+            f.write("")
+
+        self.decrypt_list.pop(entry_line)
+        for entry in self.decrypt_list:
+            self.data_list = entry
+            self.ready_for_write()
+            self.add()
