@@ -8,10 +8,6 @@ __pycache__/
 # C extensions
 *.so
 
-
-# Password Data
-src/tmp/
-
 # Distribution / packaging
 .Python
 .idea/
@@ -128,3 +124,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Password Data
+src/tmp/txt.passwords
+src/tmp/passhash.txt
