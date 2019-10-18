@@ -13,7 +13,9 @@ def encrypt_or_decrypt(password):
     while True:  # event loop
         try:
             while True:  # input loop
-                choice = input("\nDo you want to [v]iew entries, [e]dit entries, [a]dd one, [d]elete one, or [exit]? ").upper()  # takes the input
+                # takes the input
+                choice = input("\nDo you want to [v]iew entries, [e]dit entries, [a]dd one, [d]elete one, or [exit]? ")
+                choice.upper()
                 if choice in ['V', 'A', 'E', 'D', 'EXIT']:  # if it is a valid choice
                     break
             setup.clear()

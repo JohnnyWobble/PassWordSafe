@@ -6,7 +6,8 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 
 class Entry:
-    def __init__(self, name: str = None, username: str = None, email: str = None, password: str = None, pin: str = None, big_pass: str = None):
+    def __init__(self, name: str = None, username: str = None, email: str = None, password: str = None,
+                 pin: str = None, big_pass: str = None):
         """
         init method for Entry (duh), it gets called without params when you just need to access some of the unrelated
         methods (e.i. static methods) for viewing the accounts
@@ -26,6 +27,7 @@ class Entry:
         self.big_pass = big_pass  # User's password to the safe
         self.decrypt_list = []
         self.data_list = [self.name, self.username, self.email, self.password, self.pin]
+        self.vars = None  # data to write to the disk
 
     def ready_for_write(self):
         """
@@ -86,6 +88,7 @@ class Entry:
         choice = input(f'Which account would you like to {word} (ctrl+c to cancel)? ')
 
         while not choice.isdigit():  # only allow valid inputs (int)
+            # TODO catch number out of range
             choice = input(f'Which account would you like to {word} (ctrl+c to cancel)? ')
         choice = int(choice)
         account = self.decrypt_list[choice]
@@ -117,7 +120,9 @@ class Entry:
 
             self.decrypt_list.append(decrypt)
             print(f"{num}) {decrypt[0]}")  # print the different accounts
-        pick_line = self.print_entries(edit=edit, delete=delete)  # prints data for the account, and asks user which one they want
+
+        # prints data for the account, and asks user which one they want
+        pick_line = self.print_entries(edit=edit, delete=delete)  
 
         return pick_line  # pick_line is the index of the account they want
 

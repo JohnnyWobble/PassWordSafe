@@ -5,9 +5,9 @@
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PassWordSafe" beforeDir="false" afterPath="$PROJECT_DIR$/PassWordSafe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PassWordSafeSRC/EntryClass.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/EntryClass.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PassWordSafeSRC/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PassWordSafeSRC/talk.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/talk.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EntryClass.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/EntryClass.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/talk.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/menu.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -182,11 +182,5 @@
         </breakpoint>
       </default-breakpoints>
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="PythonConfigurationType">
-        <watch expression="self.data_list[num].isspace()" language="Python" />
-        <watch expression="self.data_list" language="Python" />
-      </configuration>
-    </watches-manager>
   </component>
 </project>

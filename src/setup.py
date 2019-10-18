@@ -1,5 +1,5 @@
 import hashlib
-from os import system, name, path
+from os import path
 
 from src.EntryClass import Entry
 
@@ -39,9 +39,7 @@ def add_space(string: str) -> str:
     :param string: str
     :return: str
     """
-    if string == '':
-        string += ' '
-    return string
+    return ' ' if string == '' else string
 
 
 def get_info(big_pass: str, edit: bool = False) -> Entry:
@@ -53,7 +51,7 @@ def get_info(big_pass: str, edit: bool = False) -> Entry:
     :return: Entry
     """
     if edit:
-        print("Leave the field blank if you don't want to edit it, use a period just to clear the field (ctr+c to cancel)")
+        print("Leave the field blank if you don't want to edit it, use a period just to clear it (ctr+c to cancel)")
     else:
         print("Just hit enter if you don't want to fill out the field (ctr+c to cancel)")
     acc_name = add_space(input('Name of account:      '))
@@ -84,10 +82,3 @@ def clear() -> None:  # clear output function
     :return: None
     """
     print("\033[H\033[J")
-    # for windows
-    if name == 'nt':
-        system('cls')
-
-    # for mac and linux(here, os.name is 'posix')
-    else:
-        system('clear')
